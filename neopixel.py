@@ -149,3 +149,83 @@ class Adafruit_NeoPixel(object):
 	def getPixelColor(self, n):
 		"""Get the 24-bit RGB color value for the LED at position n."""
 		return self._led_data[n]
+
+
+#%% Mock Classes for off-library testing      
+class _Mock_Adafruit_NeoPixel(object):
+    def __init__(self, num, pin, freq_hz=800000, dma=10, invert=False,
+                 brightness=255, channel=0, strip_type="WS2811_STRIP_RGB"):
+      """Class to represent a NeoPixel/WS281x LED display.  Num should be the
+      number of pixels in the display, and pin should be the GPIO pin connected
+      to the display signal line (must be a PWM pin like 18!).  Optional
+      parameters are freq, the frequency of the display signal in hertz (
+      default), dma, the DMA channel to use (default 10), invert, a boolean
+      specifying if the signal line should be inverted (default False), and
+      channel, the PWM channel to use (defaults to 0).
+      """
+      self.GPIO_pin = pin
+      self.freq_hz = freq_hz
+      self.dma = dma
+      self.invert = invert
+      self._channel_brightness = brightness
+      self.channel = channel
+      self.strip_type = strip_type
+      # Create ws2811_t structure and fill in parameters.
+      self._leds = self._mock_leds(num)
+      # Grab the led data array.
+
+    def _mock_leds(self, num_pixels):
+      pixels = [0 for i in range(num_pixels)]
+      return pixels
+
+    def _cleanup(self):
+      # Clean up memory used by the library when not needed anymore.
+      pass
+
+    def begin(self):
+      """Initialize library, must be called once before other functions are
+      called.
+      """
+      pass
+
+    def show(self):
+      """Update the display with the data from the LED buffer."""
+      pass
+
+    def setPixelColor(self, n, color):
+      """Set LED at position n to the provided 24-bit color value (in RGB order).
+      """
+      self._led_data[n] = color
+
+    def setPixelColorRGB(self, n, red, green, blue, white = 0):
+      """Set LED at position n to the provided red, green, and blue color.
+      Each color component should be a value from 0 to 255 (where 0 is the
+      lowest intensity and 255 is the highest intensity).
+      """
+      self.setPixelColor(n, Color(red, green, blue, white))
+
+    def setBrightness(self, brightness):
+      """Scale each LED in the buffer by the provided brightness.  A brightness
+      of 0 is the darkest and 255 is the brightest.
+      """
+      self._channel_brightness = brightness
+
+    def getBrightness(self):
+      """Get the brightness value for each LED in the buffer. A brightness
+      of 0 is the darkest and 255 is the brightest.
+      """
+      return self._channel_brightness
+
+    def getPixels(self):
+      """Return an object which allows access to the LED display data as if
+      it were a sequence of 24-bit RGB values.
+      """
+      return self._led_data
+
+    def numPixels(self):
+      """Return the number of pixels in the display."""
+      return len(self._led_data)
+
+    def getPixelColor(self, n):
+      """Get the 24-bit RGB color value for the LED at position n."""
+      return self._led_data[n]
