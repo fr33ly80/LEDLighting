@@ -25,7 +25,9 @@ class NeopixelLEDController(npxl):
     LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
     LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
     def __init__(self):
-        npxl.__init__(self)
+        npxl.__init__(self, self.LED_COUNT, self.LED_PIN, self.LED_FREQ_HZ,
+                      self.LED_DMA, self.LED_INVERT, self.LED_BRIGHTNESS,
+                      self.LED_CHANNEL)
     
     # Define functions which animate LEDs in various ways.
     def colorWipe(self, color, wait_ms=50):
