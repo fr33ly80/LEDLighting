@@ -15,14 +15,10 @@ class LEDLightingSystemController(base):
       self.default_mode = '002'
       
     def start(self):
-      self.queue = Queue()
-      self.lamp = Lamp()
-      self.log = Log()
+      self.Queue = Queue()
+      self.Lamp = Lamp()
+      self.Log = Log()
       self.ON = True
-      self.set_default_state()
-      
-    def set_default_state(self):
-      self.execute(self.default_mode)
       
     def run(self):
       msg = self._check_queue()
@@ -52,7 +48,8 @@ class LEDLightingSystemController(base):
       cmd(msg)
       
     def lamp_on(self, msg=None):
-      pass
+      self.Lamp.begin()
+      self.default_mode()
     
     def lamp_off(self, msg=None):
       pass
@@ -60,11 +57,16 @@ class LEDLightingSystemController(base):
     def rainbow(self, msg=None):
       pass
     
-    def wipe(self, msg=None):
-      pass
+    def wipe(self, msg='000100200240'):
+      red = int(msg[3:6])
+      green = int(msg[6:9])
+      blue = int(msg[9:12])
+      color = self.Lamp.Color(red, blue, green)
+      self.Lamp.colorWipe(color)
     
     def clear(self, msg=None):
-      pass
+      color = self.Lamp.Color(0, 0, 0)
+      self.Lamp.colorWipe(color)
     
     def theater(self, msg=None):
       pass
@@ -72,5 +74,10 @@ class LEDLightingSystemController(base):
     def cycle(self, msg=None):
       pass
     
-    def set_color(self, msg='000'):
+    def set_color(self, msg='000100200240'):
+      red = int(msg[3:6])
+      green = int(msg[6:9])
+      blue = int(msg[9:12])
+      color = self.Lamp.Color(red, blue, green)
+      self.Lamp.solidColor(color)
       pass

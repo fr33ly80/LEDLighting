@@ -29,6 +29,14 @@ class NeopixelLEDController(npxl):
                       self.LED_DMA, self.LED_INVERT, self.LED_BRIGHTNESS,
                       self.LED_CHANNEL)
     
+    def solidColor(self, color):
+      """Set LED at position n to the provided red, green, and blue color.
+      Each color component should be a value from 0 to 255 (where 0 is the
+      lowest intensity and 255 is the highest intensity).
+      """
+      for n in self.LED_COUNT:
+        self.setPixelColor(n, color))
+    
     # Define functions which animate LEDs in various ways.
     def colorWipe(self, color, wait_ms=50):
         """Wipe color across display a pixel at a time."""
@@ -47,6 +55,9 @@ class NeopixelLEDController(npxl):
                 time.sleep(wait_ms/1000.0)
                 for i in range(0, self.numPixels(), 3):
                     self.setPixelColor(i+q, 0)
+                    
+    def Color(self, red, green, blue, white=0):
+      return Color(red, green, blue, white)
     
     def wheel(self, pos):
         """Generate rainbow colors across 0-255 positions."""
