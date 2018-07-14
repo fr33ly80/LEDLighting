@@ -20,8 +20,26 @@ class LEDBase():
                        '003': self.theater,
                        '999': self.clear,
                        '000': self.set_color}
+    self.KNOWN_CODES = {'ON'     :'997',
+                        'OFF'    :'998',
+                        'RAINBOW':'001',
+                        'WIPE'   :'002',
+                        'THEATER':'003',
+                        'CLEAR'  :'999',
+                        'COLOR'  :'000'} 
+    self.KNOWN_COLORS = {'red'   :'XXXXXX'}
     
   def get_dttm(self):
     dttm = datetime.datetime.now()
     dttm = dttm.strftime(self.DTTM_FMT)
     return dttm
+
+  def _remove_keys(self, dictionary, rm_keys):    
+    keep = []
+    temp = {}
+    for key in dictionary.keys():
+        if key not in rm_keys:
+            keep.append(key)       
+    for key in keep:
+        temp[key] = dictionary.get(key)
+    return temp

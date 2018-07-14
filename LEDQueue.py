@@ -24,6 +24,7 @@ class LEDQueue(q.Queue):
 #%%
 class LEDInputSource(base):
   def __init__(self, name, queue):
+    base.__init__(self)
     self.name = name
     self.queue = queue
     
@@ -39,6 +40,7 @@ class LEDInputSource(base):
 #%%
 class QueueMessage(base):  
   def __init__(self, source, command):
+    base.__init__(self)
     self.time = self._get_dttm()
     self.name = 'generic_message'
     self.source = source
